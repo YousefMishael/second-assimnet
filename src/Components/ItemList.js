@@ -5,11 +5,11 @@ import './Form.css'
 function ItemList(props) {
 
     const deleteItem = () => {
-        props.handleDeleteItem(props.item.id)
+        props.handleDeleteItem(props.item.id)//callback funtion to delete item
     }
 
     const editItem = () => {
-        props.handleSetUpdateMode(props.item.id)
+        props.handleSetUpdateMode(props.item.id)//callback function to set form on updating mode
     }
 
   return (

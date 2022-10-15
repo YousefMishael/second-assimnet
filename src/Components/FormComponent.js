@@ -7,22 +7,22 @@ class FormComponent extends Component {
         super(props);
 
         this.state = {
-            mode: 'adding',
+            mode: 'adding',//used to specify form button label 'add or update'
             todoList: [],
-            title: '',
-            description: '',
-            currentUpdatingIdx: -1
+            title: '',//title input value
+            description: '',//description textarea value
+            currentUpdatingIdx: -1//under updating item from child component, to specify on which item's update button pressed 
         }
     }
 
 
-    handleTextChanged(e){
+    handleTextChanged(e){//handle text changed in title input and description text area at the same function
         this.setState({
             [e.target.name]: e.target.value
         })
     }
 
-    handleResetInputs(e){
+    handleResetInputs(e){//reset title input and description textarea 
         e.preventDefault();
 
         this.setState({
@@ -31,53 +31,53 @@ class FormComponent extends Component {
         })
     }
 
-    handleAddItem(e){
+    handleAddItem(e){//function to add and update 
         e.preventDefault();
         if(this.state.title === '' || this.state.description === '')
             return;
         
-        if (this.state.mode === 'adding'){
-            this.setState({
+        if (this.state.mode === 'adding'){//add
+            this.setState({//copy todoList items and add to it a new item then reset title input and description textarea
                 todoList: [...this.state.todoList, {
                     title: this.state.title,
                     description: this.state.description,
-                    id: this.state.todoList.length
+                    id: Math.random() * 10000//give the new item an id to use it in deleting
                 }],
-                title: '',
-                description: ''
+                title: '',//reset title input
+                description: ''//reset description textarea
             })
-        }else{
-            let _todoList = JSON.parse(JSON.stringify(this.state.todoList));
+        }else{//mode updating
+            let _todoList = JSON.parse(JSON.stringify(this.state.todoList));//todoList deep copy to modify it
             _todoList.forEach((todo, idx) => {
-                if (idx === this.state.currentUpdatingIdx && this.state.currentUpdatingIdx !== -1){
+                if (idx === this.state.currentUpdatingIdx && this.state.currentUpdatingIdx !== -1){//update selected item using currentUpdatingIdx (calling from child component (Edit Button in list items) sets form to editing mode and this function called from current component from update button so the selected index from child is stored in currentUpdatingIdx)
                     todo.title = this.state.title;
                     todo.description = this.state.description;
                 }
             });
-            this.setState({
+            this.setState({//update state and rerender
                 todoList: _todoList,
                 currentUpdatingIdx: -1,
-                title: '',
-                description: '',
-                mode: 'adding'
+                title: '',//reset title input
+                description: '',//reset description textarea
+                mode: 'adding'//change form mode to adding mode
             })
         }
     }
 
-    handleDeleteItem(idx){
-        let _todoList = JSON.parse(JSON.stringify(this.state.todoList));
-        _todoList = _todoList.filter((todo) => todo.id !== idx)
-        this.setState({
+    handleDeleteItem(idx){//called when delete button pressed in child component (list item)
+        let _todoList = JSON.parse(JSON.stringify(this.state.todoList));//todoList deep copy to modify it
+        _todoList = _todoList.filter((todo) => todo.id !== idx)//remove selected item using its id
+        this.setState({//update our list and rerender
             todoList: _todoList
         })
     }
 
-    handleSetUpdateMode(idx){
+    handleSetUpdateMode(idx){//set form to updating mode
         this.setState({
-            currentUpdatingIdx: idx,
-            title: this.state.todoList[idx].title,
-            description: this.state.todoList[idx].description,
-            mode: 'updating'
+            currentUpdatingIdx: idx,//to specify on which item update button pressed after updating data 
+            title: this.state.todoList[idx].title,//fill title
+            description: this.state.todoList[idx].description,//fill description
+            mode: 'updating'//change form to updating mode
         })
     }
 
