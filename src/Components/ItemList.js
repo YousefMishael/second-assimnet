@@ -15,7 +15,6 @@ function ItemList(props) {
   return (
     <div className='item-container'>
         <h4>{props.item.title}</h4>
-        <p>{props.item.title}</p>
         <p>{props.item.description}</p>
         <div className='action-container'>
             <button onClick={editItem}>Edit</button>
