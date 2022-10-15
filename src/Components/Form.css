@@ -1,0 +1,24 @@
+.form-container{
+    display: flex;
+    flex-direction: column;
+}
+form{
+    display: flex;
+    flex-direction: column;
+}
+form *{
+    margin-top: 0.5rem;
+}
+form input{
+    width: 20em;
+    height: 2em;
+}
+form textarea{
+    width: 25em;
+}
+
+.action-container button{
+    margin: 1rem;
+    width: 5em;
+    height: 3em;
+}

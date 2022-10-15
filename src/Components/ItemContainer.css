@@ -1,0 +1,8 @@
+.item-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.item-container hr{
+    border-style: dashed;
+}
