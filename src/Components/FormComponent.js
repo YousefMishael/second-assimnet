@@ -48,8 +48,8 @@ class FormComponent extends Component {
             })
         }else{//mode updating
             let _todoList = JSON.parse(JSON.stringify(this.state.todoList));//todoList deep copy to modify it
-            _todoList.forEach((todo, idx) => {
-                if (idx === this.state.currentUpdatingIdx && this.state.currentUpdatingIdx !== -1){//update selected item using currentUpdatingIdx (calling from child component (Edit Button in list items) sets form to editing mode and this function called from current component from update button so the selected index from child is stored in currentUpdatingIdx)
+            _todoList.forEach(todo => {
+                if (todo.id === this.state.currentUpdatingIdx && this.state.currentUpdatingIdx !== -1){//update selected item using currentUpdatingIdx (calling from child component (Edit Button in list items) sets form to editing mode and this function called from current component from update button so the selected index from child is stored in currentUpdatingIdx)
                     todo.title = this.state.title;
                     todo.description = this.state.description;
                 }
@@ -64,20 +64,24 @@ class FormComponent extends Component {
         }
     }
 
-    handleDeleteItem(idx){//called when delete button pressed in child component (list item)
+    handleDeleteItem(id){//called when delete button pressed in child component (list item)
         let _todoList = JSON.parse(JSON.stringify(this.state.todoList));//todoList deep copy to modify it
-        _todoList = _todoList.filter((todo) => todo.id !== idx)//remove selected item using its id
+        _todoList = _todoList.filter((todo) => todo.id !== id)//remove selected item using its id
         this.setState({//update our list and rerender
             todoList: _todoList
         })
     }
 
-    handleSetUpdateMode(idx){//set form to updating mode
-        this.setState({
-            currentUpdatingIdx: idx,//to specify on which item update button pressed after updating data 
-            title: this.state.todoList[idx].title,//fill title
-            description: this.state.todoList[idx].description,//fill description
-            mode: 'updating'//change form to updating mode
+    handleSetUpdateMode(id){//set form to updating mode
+        this.state.todoList.forEach((todo) => {
+            if (todo.id === id){
+                this.setState({
+                    currentUpdatingIdx: id,//to specify on which item update button pressed after updating data 
+                    title: todo.title,//fill title
+                    description: todo.description,//fill description
+                    mode: 'updating'//change form to updating mode
+                })
+            }
         })
     }
 
