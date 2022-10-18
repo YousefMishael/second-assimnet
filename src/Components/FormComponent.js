@@ -22,13 +22,21 @@ class FormComponent extends Component {
         })
     }
 
-    handleResetInputs(e){//reset title input and description textarea 
+    handleResetInputs(e){//reset title input and description textarea or cancel updating
         e.preventDefault();
 
-        this.setState({
-            title: '',
-            description: ''
-        })
+        if (this.state.mode === 'adding'){
+            this.setState({
+                title: '',
+                description: ''
+            })
+        }else{
+            this.setState({//set form mode to adding mode and reset fields
+                mode: 'adding',
+                title: '',
+                description: ''
+            })
+        }
     }
 
     handleAddItem(e){//function to add and update 
@@ -95,7 +103,7 @@ class FormComponent extends Component {
             <textarea placeholder='Description' value={this.state.description} name='description' rows={4} onChange={this.handleTextChanged.bind(this)} id='description' />
             <div className='action-container'>
                 <button onClick={this.handleAddItem.bind(this)}>{this.state.mode === 'adding' ? 'Add' : 'Updating'}</button>
-                <button onClick={this.handleResetInputs.bind(this)}>Reset</button>
+                <button onClick={this.handleResetInputs.bind(this)}>{this.state.mode === 'adding' ? 'Reset' : 'Cancel'}</button>
             </div>
         </form>
         <hr />
