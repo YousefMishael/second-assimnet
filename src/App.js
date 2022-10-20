@@ -73,6 +73,13 @@ handleAddItem(e){//function to add and update
 }
 
 handleDeleteItem(id){//called when delete button pressed in child component (list item)
+  if (this.state.currentUpdatingIdx === id) //check if deleted item is the current updating item
+    this.setState({ //change form mode to adding mode and reset fields then delete the item
+      mode: 'adding',
+      title: '',
+      description: ''
+    })
+
   let _todoList = JSON.parse(JSON.stringify(this.state.todoList));//todoList deep copy to modify it
   _todoList = _todoList.filter((todo) => todo.id !== id)//remove selected item using its id
   this.setState({//update our list and rerender
